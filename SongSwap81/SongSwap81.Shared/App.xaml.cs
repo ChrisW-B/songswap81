@@ -5,6 +5,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SongSwap81.Keys;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -100,12 +102,13 @@ namespace SongSwap81
             Window.Current.Activate();
         }
 
-#if WINDOWS_PHONE_APP
+
         /// <summary>
         /// Restores the content transitions after the app has launched.
         /// </summary>
         /// <param name="sender">The object where the handler is attached.</param>
         /// <param name="e">Details about the navigation event.</param>
+#if WINDOWS_PHONE_APP
         private void RootFrame_FirstNavigated(object sender, NavigationEventArgs e)
         {
             var rootFrame = sender as Frame;
@@ -113,7 +116,6 @@ namespace SongSwap81
             rootFrame.Navigated -= this.RootFrame_FirstNavigated;
         }
 #endif
-
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
         /// without knowing whether the application will be terminated or resumed with the contents

@@ -4,7 +4,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static SongSwap81.Keys.APIKeys;
+using SongSwap81.Keys;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -17,7 +17,7 @@ namespace SongSwap81
     {
         // http://go.microsoft.com/fwlink/?LinkId=290986&clcid=0x409
         public static MobileServiceClient SongSwap81Client = new MobileServiceClient(
-        DbUrl, DbKey);
+        APIKeys.DbUrl, APIKeys.DbKey);
 
 
 #if WINDOWS_PHONE_APP

@@ -5,7 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
-using static SongSwap81.Keys.APIKeys;
+using SongSwap81.Keys;
 
 namespace SongSwap81
 {
@@ -17,7 +17,7 @@ namespace SongSwap81
         public MainPage()
         {
             this.InitializeComponent();
-            cli = new MusicClient(MixRadioKey);
+            cli = new MusicClient(APIKeys.MixRadioKey);
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -31,30 +31,35 @@ namespace SongSwap81
         {
             if (searchText != "" && myCallNum == searchCalls)
             {
-                int numResults = 20, numProcessed = 0;
-                ListResponse<MusicItem> search = await cli.SearchAsync(searchText, Category.Track, null, null, null, 0, numResults);
+                int numResults = 20, startIndex = 0;
+                ListResponse<MusicItem> search;
                 ObservableCollection<Track> tracks = new ObservableCollection<Track>();
                 listView.ItemsSource = tracks;
-                if (search.Succeeded)
+                do
                 {
-                    foreach (MusicItem track in search)
+                    search = await cli.SearchAsync(searchText, Category.Track, null, null, null, startIndex, numResults);
+                    if (search.Succeeded)
                     {
-                        if (myCallNum != searchCalls)
+                        foreach (MusicItem track in search)
                         {
-                            break;
+                            if (myCallNum != searchCalls)
+                            {
+                                break;
+                            }
+                            Response<Product> prodRes = await cli.GetProductAsync(track.Id);
+                            if (prodRes.Succeeded && prodRes.Result.Category == Category.Track && !prodRes.Result.ParentalAdvisory && tracks.Count < 20)
+                            {
+                                tracks.Add(new Track(prodRes.Result.Performers[0].Name, prodRes.Result.Name, prodRes.Result.TakenFrom.Name, prodRes.Result.Thumb200Uri.OriginalString, prodRes.Result.Id, songCategory.nostalgic));
+                            }
+
                         }
-                        numProcessed++;
-                        Response<Product> prodRes = await cli.GetProductAsync(track.Id);
-                        if (prodRes.Succeeded && prodRes.Result.Category == Category.Track)
+                        if (myCallNum == searchCalls && searchCalls > 200)
                         {
-                            tracks.Add(new Track(prodRes.Result.Performers[0].Name, prodRes.Result.Name, prodRes.Result.TakenFrom.Name, prodRes.Result.Thumb200Uri.OriginalString, prodRes.Result.Id, songCategory.nostalgic));
+                            searchCalls = 0;
                         }
                     }
-                    if (myCallNum == searchCalls && searchCalls > 200)
-                    {
-                        searchCalls = 0;
-                    }
-                }
+                    startIndex += 21;
+                } while (myCallNum == searchCalls && search.TotalResults > numResults && tracks.Count < numResults);
             }
             else if (searchText == "")
             {

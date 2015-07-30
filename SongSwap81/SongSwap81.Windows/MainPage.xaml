@@ -16,7 +16,7 @@
                             <ColumnDefinition Width=".33*"></ColumnDefinition>
                             <ColumnDefinition Width=".66*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding AlbumCoverUri}"/>
+                        <Image Grid.Column="0" Source="{Binding AlbumCoverUri}" />
                         <StackPanel Grid.Column="1" Margin="20,0,10,0">
                             <TextBlock Text="{Binding Title}" />
                             <TextBlock Text="{Binding Artist}" />
@@ -25,7 +25,6 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
         <TextBox x:Name="textBox" Margin="10,10,10,0" TextWrapping="NoWrap" TextChanged="textBox_TextChanged" Height="35" VerticalAlignment="Top" />
         <MediaElement x:Name="mediaControl"></MediaElement>

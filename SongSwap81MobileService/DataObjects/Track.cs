@@ -15,6 +15,8 @@ namespace SongSwap81MobileService.DataObjects
         public string SongId { get; set; }
 
         public songCategory Category { get; set; }
+
+        public int NumRemainingPlays { get; set; }
     }
     public enum songCategory
     {

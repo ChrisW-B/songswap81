@@ -18,8 +18,10 @@ namespace SongSwap81
     public sealed partial class App : Application
     {
         // http://go.microsoft.com/fwlink/?LinkId=290986&clcid=0x409
+        //public static MobileServiceClient SongSwap81Client = new MobileServiceClient(
+        //APIKeys.DbUrl, APIKeys.DbKey);
         public static MobileServiceClient SongSwap81Client = new MobileServiceClient(
-        APIKeys.DbUrl, APIKeys.DbKey);
+      "http://localhost:2630/");
 
 
 #if WINDOWS_PHONE_APP

@@ -17,6 +17,8 @@ namespace SongSwap81.DataModel
         public string SongId { get; set; }
         [JsonProperty(PropertyName = "category")]
         public songCategory Category { get; set; }
+        [JsonProperty(PropertyName ="numremainingplays")]
+        public int NumRemainingPlays { get; set; }
         public Track(string artist, string title, string album, string albumCoverUri, string songId, songCategory category)
         {
             Artist = artist;
@@ -25,6 +27,7 @@ namespace SongSwap81.DataModel
             AlbumCoverUri = albumCoverUri;
             SongId = songId;
             Category = category;
+            NumRemainingPlays = 10;
         }
     }
     public enum songCategory
